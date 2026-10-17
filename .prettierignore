@@ -7,3 +7,7 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Inlang (generated; only settings.json is tracked)
+/project.inlang/*
+!/project.inlang/settings.json

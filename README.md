@@ -52,3 +52,30 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
+
+## Deploying to Clever Cloud
+
+The site is prerendered with `@sveltejs/adapter-static` and served by a Clever Cloud [Static](https://www.clever.cloud/developers/guides/sveltekit/) application.
+
+The local link to the Clever Cloud application lives in `.clever.json`, which is not committed. To deploy, link your clone to an application first:
+
+```sh
+npm i -g clever-tools
+clever login
+
+# either create a new Static application…
+clever create -t static
+clever env set CC_WEBROOT "/build"
+clever env set CC_BUILD_COMMAND "npm install && npm run build"
+clever env set SERVER_FALLBACK_PAGE "./build/200.html"
+
+# …or link an existing one by name or ID
+clever link <app-name-or-id>
+```
+
+Then deploy the committed `HEAD`:
+
+```sh
+clever deploy
+clever open
+```

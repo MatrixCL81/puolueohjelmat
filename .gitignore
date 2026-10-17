@@ -108,3 +108,10 @@ dist
 
 # SvelteKit
 .svelte-kit
+/build
+
+# Paraglide (generated)
+/src/lib/paraglide
+
+# Clever Cloud (local app link, see README)
+.clever.json
