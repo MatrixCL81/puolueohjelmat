@@ -12,7 +12,13 @@ export default defineConfig({
 				runes: ({ filename }) =>
 					filename.split(/[/\\]/).includes('node_modules') ? undefined : true
 			},
-			adapter: adapter()
+			adapter: adapter(),
+			// Root-relative paths from `resolve()`, which Paraglide can prefix with a locale.
+			paths: { relative: false },
+			prerender: {
+				// Start from the locale roots rather than `/`, which redirects to a locale at runtime.
+				entries: ['/fi', '/sv', '/en']
+			}
 		}),
 
 		paraglideVitePlugin({
@@ -20,7 +26,18 @@ export default defineConfig({
 			outdir: './src/lib/paraglide',
 			emitTsDeclarations: true,
 			// Derive the locale from the URL (/en/, /sv/), so prerendered pages get the right language.
-			strategy: ['url', 'cookie', 'baseLocale']
+			strategy: ['url', 'cookie', 'baseLocale'],
+			// Every locale, including the base locale, gets a path prefix: /fi, /sv, /en.
+			urlPatterns: [
+				{
+					pattern: '/:path(.*)?',
+					localized: [
+						['fi', '/fi/:path(.*)?'],
+						['sv', '/sv/:path(.*)?'],
+						['en', '/en/:path(.*)?']
+					]
+				}
+			]
 		})
 	],
 	test: {

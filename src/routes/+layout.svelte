@@ -1,10 +1,13 @@
 <script lang="ts">
-	import DemoLinks from './demo/DemoLinks.svelte';
-	import type { Path } from '$app/types';
-	import { resolve } from '$app/paths';
+	import '../app.css';
+	import type { ResolvedPathname } from '$app/types';
 	import { page } from '$app/state';
-	import { locales, localizeHref } from '#lib/paraglide/runtime.js';
 	import favicon from '#lib/assets/favicon.svg';
+	import SiteFooter from '#lib/components/SiteFooter.svelte';
+	import SiteHeader from '#lib/components/SiteHeader.svelte';
+	import { localized } from '#lib/i18n.js';
+	import { m } from '#lib/paraglide/messages.js';
+	import { locales } from '#lib/paraglide/runtime.js';
 	import type { LayoutProps } from './$types';
 
 	let { children }: LayoutProps = $props();
@@ -12,14 +15,22 @@
 
 <svelte:head>
 	<link rel="icon" href={favicon} />
+	<meta name="description" content={m.site_description()} />
+	{#each locales as locale (locale)}
+		<link
+			rel="alternate"
+			hreflang={locale}
+			href={localized(page.url.pathname as ResolvedPathname, locale)}
+		/>
+	{/each}
 </svelte:head>
 
-{@render children()}
+<a class="skip-link" href="#main">{m.skip_to_content()}</a>
 
-<div style="display:none">
-	{#each locales as locale (locale)}
-		<a href={resolve(localizeHref(page.url.pathname, { locale }) as Path)}>{locale}</a>
-	{/each}
-</div>
+<SiteHeader />
 
-<DemoLinks />
+<main id="main" tabindex="-1">
+	{@render children()}
+</main>
+
+<SiteFooter />

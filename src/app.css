@@ -1,0 +1,56 @@
+:root {
+	--color-text: #1a1a1a;
+	--color-bg: #ffffff;
+	--color-link: #0b4fa8;
+	--color-accent: #0b4fa8;
+	--color-muted-bg: #f2f4f7;
+	--color-border: #d0d5dd;
+	--color-focus: #b35c00;
+	--gutter: 1rem;
+	--measure: 42rem;
+
+	color-scheme: light;
+	font-family: system-ui, sans-serif;
+	line-height: 1.6;
+	color: var(--color-text);
+	background: var(--color-bg);
+}
+
+body {
+	margin: 0;
+}
+
+a {
+	color: var(--color-link);
+	text-underline-offset: 0.15em;
+}
+
+:focus-visible {
+	outline: 3px solid var(--color-focus);
+	outline-offset: 2px;
+}
+
+main {
+	max-width: var(--measure);
+	margin-inline: auto;
+	padding: 2rem var(--gutter);
+}
+
+pre {
+	overflow-x: auto;
+	padding: 1rem;
+	background: var(--color-muted-bg);
+	white-space: pre-wrap;
+}
+
+.skip-link {
+	position: absolute;
+	inset-inline-start: 1rem;
+	inset-block-start: -10rem;
+	padding: 0.5rem 1rem;
+	background: var(--color-bg);
+}
+
+.skip-link:focus {
+	inset-block-start: 1rem;
+}
